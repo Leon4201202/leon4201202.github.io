@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orion Tech LLC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080b0f;
+      --surface:  #0d1117;
+      --border:   #1c2330;
+      --accent:   #3a7bd5;
+      --accent2:  #00c6ff;
+      --text:     #c9d1d9;
+      --muted:    #586069;
+      --white:    #f0f6fc;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(8, 11, 15, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent2); }
+
+    nav ul { list-style: none; display: flex; gap: 36px; }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--white); }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      margin-top: 32px;
+      max-width: 580px;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.85;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.35s forwards;
+    }
+
+    .hero-line {
+      width: 64px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      margin: 36px 0;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.45s forwards;
+    }
+
+    .hero-founder {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.55s forwards;
+    }
+
+    .hero-founder strong { color: var(--text); font-weight: 500; }
+
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 48px;
+    }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 32px;
+    }
+
+    .divider {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .divider hr { border: none; border-top: 1px solid var(--border); }
+
+    .about-body { max-width: 720px; }
+
+    .about-body p {
+      margin-bottom: 22px;
+      font-size: 1.02rem;
+      color: var(--text);
+      line-height: 1.85;
+    }
+
+    .about-body p:last-child { margin-bottom: 0; }
+
+    .pull-quote {
+      margin: 44px 0;
+      padding: 32px 40px;
+      border-left: 2px solid var(--accent2);
+      background: var(--surface);
+    }
+
+    .pull-quote p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+      margin: 0 !important;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 48px;
+      border: 1px solid var(--border);
+    }
+
+    .pillar {
+      padding: 40px 32px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      transition: background 0.25s;
+    }
+
+    .pillar:last-child { border-right: none; }
+    .pillar:hover { background: #111820; }
+
+    .pillar-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .pillar h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 14px;
+      letter-spacing: 0.04em;
+    }
+
+    .pillar p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-body p {
+      color: var(--text);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .contact-detail { margin-top: 36px; }
+
+    .contact-detail a {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--accent2);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid rgba(0,198,255,0.3);
+      padding-bottom: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-detail a:hover { color: var(--white); border-color: var(--accent2); }
+
+    .contact-meta {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .contact-right {
+      border: 1px solid var(--border);
+      padding: 40px;
+      background: var(--surface);
+    }
+
+    .contact-right p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .contact-right p:last-child { margin-bottom: 0; }
+    .contact-right strong { color: var(--text); font-weight: 500; }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; }
+
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      nav ul { display: none; }
+      .hero, section { padding-left: 24px; padding-right: 24px; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .pillars { grid-template-columns: 1fr; }
+      .pillar { border-right: none; border-bottom: 1px solid var(--border); }
+      .pillar:last-child { border-bottom: none; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .pull-quote { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">Orion<span>Tech</span> LLC</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Our Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <p class="hero-tag">AI Infrastructure &nbsp;·&nbsp; Built Different</p>
+    <h1>We're Not<br/>Building<br/>Another <em>Tool.</em></h1>
+    <p class="hero-sub">
+      Orion Tech LLC is developing infrastructure for the next generation of AI systems —
+      the kind of foundation that doesn't exist yet, because no one has built it yet.
+      We're building it now.
+    </p>
+    <div class="hero-line"></div>
+    <p class="hero-founder">
+      Founded by <strong>Mario</strong> &nbsp;·&nbsp; CEO &amp; Principal Architect
+      &nbsp;·&nbsp; Orion Tech LLC
+    </p>
+  </div>
+
+  <div class="divider"><hr/></div>
+
+  <section id="about">
+    <p class="section-label">About the Company</p>
+    <h2 class="section-title">A Different<br/>Kind of Foundation</h2>
+    <div class="about-body">
+      <p>
+        Orion Tech LLC is an independent AI infrastructure company. We don't build
+        apps on top of existing AI platforms. We build the underlying architecture —
+        the coordination systems, the memory frameworks, the structural foundations
+        that make large-scale AI operation possible.
+      </p>
+      <p>
+        Our approach comes from an unexpected place: over a decade and a half of
+        experience in high-precision manufacturing systems, where distributed
+        coordination isn't a concept — it's a daily operational requirement.
+        We brought that thinking into AI infrastructure and built from first principles.
+      </p>
+
+      <div class="pull-quote">
+        <p>"There is something being built here that the industry hasn't seen yet.
+        We're not ready to show all of it. But the foundation is real, it's working,
+        and it's further along than most people would expect."</p>
+      </div>
+
+      <p>
+        We are early-stage by choice. We move carefully because what we're building
+        demands it. When the time is right, the full picture will speak for itself.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"><hr/></div>
+
+  <section id="work">
+    <p class="section-label">What We Build</p>
+    <h2 class="section-title">Core Focus Areas</h2>
+    <div class="pillars">
+      <div class="pillar">
+        <p class="pillar-num">01</p>
+        <h3>Distributed AI Coordination</h3>
+        <p>
+          Large-scale multi-agent systems designed to operate as a single coherent
+          network — resilient, self-healing, and built to scale without degrading.
+        </p>
+      </div>
+      <div class="pillar">
+        <p class="pillar-num">02</p>
+        <h3>AI Systems Architecture</h3>
+        <p>
+          Infrastructure engineered from the ground up — tiered resource management,
+          intelligent coordination protocols, and modular design built for
+          long-term integrity.
+        </p>
+      </div>
+      <div class="pillar">
+        <p class="pillar-num">03</p>
+        <h3>What Comes Next</h3>
+        <p>
+          There is a longer-term vision behind this work. The infrastructure being
+          built has a purpose that goes beyond coordination alone.
+          We're not ready to talk about it publicly yet.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><hr/></div>
+
+  <section id="contact">
+    <p class="section-label">Get In Touch</p>
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-wrap">
+      <div class="contact-body">
+        <p>
+          We're open to conversations with investors, potential partners, and
+          organizations working on serious problems in AI infrastructure.
+        </p>
+        <p>
+          We don't have a pitch deck. We have a working system and a clear
+          direction. If that's enough to start a conversation, we'd like to
+          hear from you.
+        </p>
+        <div class="contact-detail">
+          <a href="mailto:oriontech1202@gmail.com">oriontech1202@gmail.com</a>
+          <p class="contact-meta">Business inquiries &amp; partnerships</p>
+        </div>
+      </div>
+      <div class="contact-right">
+        <p><strong>Orion Tech LLC</strong></p>
+        <p>Independent AI infrastructure company developing distributed coordination systems and the architectural foundation for what comes next in AI.</p>
+        <p>United States &nbsp;·&nbsp; Founded 2024</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-logo">Orion Tech LLC</span>
+    <p>© 2025 Orion Tech LLC. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
